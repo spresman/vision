@@ -325,10 +325,10 @@ class RegionProposalNetwork(torch.nn.Module):
             pred_bbox_deltas[sampled_pos_inds],
             regression_targets[sampled_pos_inds],
             beta=1 / 9,
-            reduction="none",
+            reduction="sum",
         ) / (sampled_inds.numel())
 
-        objectness_loss = F.binary_cross_entropy_with_logits(objectness[sampled_inds], labels[sampled_inds])
+        objectness_loss = F.binary_cross_entropy_with_logits(objectness[sampled_inds], labels[sampled_inds], reduction='none')
 
         return objectness_loss, box_loss
 
